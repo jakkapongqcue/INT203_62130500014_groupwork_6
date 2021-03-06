@@ -1,0 +1,130 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Basic Vue Js - HelloWorld App</title>
+
+    <!-- https://google.github.io/material-design-icons/#icon-font-for-the-web -->
+    <!-- Using via Google Web Fonts -->
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet" />
+
+    <!-- https://tailwindcss.com/docs/installation -->
+    <!-- Using Tailwind via CDN -->
+    <link href="https://unpkg.com/tailwindcss@^2/dist/tailwind.min.css" rel="stylesheet" />
+
+    <!-- https://v3.vuejs.org/guide/installation.html#release-notes -->
+    <!-- Vue CDN -->
+    <script src="https://unpkg.com/vue@next"></script>
+    <script src="//cdnjs.cloudflare.com/ajax/libs/validate.js/0.13.1/validate.min.js"></script>
+    <script src="//cdn.jsdelivr.net/npm/sweetalert2@10"></script>
+
+
+</head>
+
+<body id="app" class="bg-gray-200">
+    <div class="rounded rounded-t-lg overflow-hidden shadow max-w-xs my-3 mx-auto bg-white">
+        <div class="w-full h-16 bg-blue-500"></div>
+        <div class="flex justify-center ">
+            <img v-bind:src="img" class="rounded-full border-solid border-white border-2 -mt-8 w-14">
+        </div>
+        <div class="text-center px-3 pb-6 pt-2">
+            <h3 class="text-black text-sm bold font-sans">User name: {{username}}</h3>
+            <h3 class="text-black text-sm bold font-sans">Name: {{firstname}} {{lastname}}</h3>
+            <h3 class="text-black text-sm bold font-sans">Age: {{age}}</h3>
+            <h3 class="text-black text-sm bold font-sans">Email: {{email}}</h3>
+            <h3 class="text-black text-sm bold font-sans">Subject: {{chosensubject}}</h3>
+        </div>
+    </div>
+
+
+    <!-- Form -->
+    <div class="rounded rounded-t-lg overflow-hidden shadow max-w-3xl my-3 mx-auto bg-white">
+        <div class="w-full h-16 bg-blue-500"></div>
+        <div class="flex flex-row ml-8">
+            <img v-bind:src="img" class="rounded-full border-solid border-white border-2 -mt-8 w-14 h-14">
+            <p class="flex flex-row text-2xl -mt-8 ml-5 h-14 text-current text-white semibold">Registration Form</p>
+        </div>
+        <form @submit.prevent="checkForm">
+            <div class="p-6">
+                <div class="grid grid-cols-8 gap-4">
+                    <div class="flex flex-col col-span-2">
+                        <label for="username" class="text-sm leading-7 text-gray-600">User name</label>
+                        <input type="text" id="username" v-model="username" placeholder="user name" name="username" class="px-4 py-2
+                                    bg-gray-100 ring-2 ring-transparent focus:ring-blue-300
+                                    rounded-md focus:outline-none text-gray-600">
+                    </div>
+                    <div class="flex flex-col col-span-3">
+                        <label for="firstname" class="text-sm leading-7 text-gray-600">First Name</label>
+                        <input type="text" id="firstname" v-model="firstname" placeholder="first name" name="firstname" class="px-4 py-2
+                                    bg-gray-100 ring-2 ring-transparent focus:ring-blue-300
+                                    rounded-md focus:outline-none text-gray-600">
+                    </div>
+                    <div class="flex flex-col col-span-3">
+                        <label for="lastname" class="text-sm leading-7 text-gray-600">Last Name</label>
+                        <input type="text" id="lastname" v-model="lastname" placeholder="last name" name="lastname" class="px-4 py-2
+                                    bg-gray-100 ring-2 ring-transparent focus:ring-blue-300
+                                    rounded-md focus:outline-none text-gray-600">
+                    </div>
+                    <div class="flex flex-col col-span-2">
+                        <label for="age" class="text-sm leading-7 text-gray-600">Age</label>
+                        <input type="number" id="age" v-model="age" name="age" placeholder="year" class="px-4 py-2
+                                    bg-gray-100 ring-2 ring-transparent focus:ring-blue-300
+                                    rounded-md focus:outline-none text-gray-600">
+                    </div>
+                    <div class="flex flex-col col-span-2">
+                        <label class="text-sm leading-7 text-gray-600">Gender</label>
+                        <div class="flex flex-row pt-2 space-x-2">
+                            <input type="radio" id="Male" v-model="gender" name="gender" value="M" class="bg-gray-100 rounded px-4 py-2 mb-4">
+                            <label for="Male">Male</label>
+                            <input type="radio" id="Female" v-model="gender" name="gender" value="F" class="bg-gray-100 rounded px-4 py-2 mb-4">
+                            <label for="Female">Female</label>
+                        </div>
+                    </div>
+                    <div class="flex flex-col col-span-4">
+                        <label for="chosensubject" class="text-sm leading-7 text-gray-600">Subject</label>
+                        <select id="chosensubject" v-model="chosensubject" name="chosensubject" class="px-4 py-2
+                                    bg-gray-100 ring-2 ring-transparent focus:ring-blue-300
+                                    rounded-md focus:outline-none text-gray-600">
+                            <option value="null" selected="selected" class="text-gray-400">Select your option</option>
+                            <option v-for="subject in subject_lists" :value="subject.subject_name">
+                                {{subject.subject_name}}
+                            </option>
+                        </select>
+                    </div>
+                    <div class="flex flex-col col-span-4">
+                        <label for="email" class="text-sm leading-7 text-gray-600">Email</label>
+                        <input type="text" id="email" v-model="email" name="email" placeholder="email" class="px-4 py-2
+                                    bg-gray-100 ring-2 ring-transparent focus:ring-blue-300
+                                    rounded-md focus:outline-none text-gray-600">
+                    </div>
+                    <div class="flex flex-col col-span-4">
+                        <label for="phone" class="text-sm leading-7 text-gray-600">Phone Number</label>
+                        <input type="text" id="phone" v-model="phone" name="phone" placeholder="phone number" class="px-4 py-2
+                                    bg-gray-100 ring-2 ring-transparent focus:ring-blue-300
+                                    rounded-md focus:outline-none text-gray-600">
+                    </div>
+                </div>
+                <div class="grid grid-cols-2 gap-4 mt-8">
+                    <p v-if="errors" class="flex flex-row text-red-500 ">
+                        <b class="flex flex-col col-span-1">Please correct the following requires:</b>
+                        <ul lass="flex flex-col col-span-1">
+                            <li v-for="error in errors" class="text-red-500">{{ error }}</li>
+                        </ul>
+                    </p>
+                </div>
+                <div>
+                    <input type="submit" value="Submit" class="px-8 py-2 mt-8 text-white bg-blue-500 rounded-lg hover:bg-blue-600 focus:shadow-outline focus:outline-none focus:ring-2 ring-offset-current ring-offset-2">
+                </div>
+            </div>
+        </form>
+    </div>
+
+    <script src="./main.js"></script>
+    <script>
+        const mountedApp = app.mount('#app')
+    </script>
+</body>
+
+</html>
